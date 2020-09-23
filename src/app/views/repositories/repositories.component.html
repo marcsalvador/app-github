@@ -1,0 +1,113 @@
+<div class="card border-0 shadow-sm mb-5 bg-white rounded" *ngIf="parent.org!=null">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title">
+                    <svg class="octicon octicon-repo UnderlineNav-octicon" viewBox="0 0 16 16" version="1.1" width="16"
+                        height="16" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                        </path>
+                    </svg>&nbsp;
+                    Repositories
+                </h5>
+            </div>
+            <div class="col-2 text-right">
+                <span class="pointer" (click)="showFilter = !showFilter"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+        <p class="card-text">Total of {{parent.org.public_repos}} repositories</p>
+    </div>
+    <div class="card-body bg-light" [collapse]="showFilter" [isAnimated]="true">
+        <form [formGroup]="formGroup" autocomplete="off" novalidate (ngSubmit)="search()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="search" formControlName="search"
+                            (blur)="filterSearch()" placeholder="Find a repository...">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Type</span>
+                        </div>
+                        <select class="form-control" id="type" formControlName="type" (change)="filterSearch()">
+                            <option value="all">All</option>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="forks">Forks</option>
+                            <option value="sources">Sources</option>
+                            <option value="member">Member</option>
+                            <option value="internal">Internal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Language</span>
+                        </div>
+                        <select class="form-control" id="language" formControlName="language" (change)="filterSearch()">
+                            <option *ngIf="parent.languages!=null" value="all">All</option>
+                            <option *ngFor="let item of parent.languages" value="{{item.language}}">
+                                {{item.language}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <ul class="list-group list-group-flush" *ngIf="parent.org!=null">
+        <li class="list-group-item" *ngFor="let item of repositories">
+            <div class="flex-justify-between d-flex">
+                <div class="flex-auto ">
+                    <h3 class="wb-break-all">
+                        <a itemprop="name codeRepository" data-hovercard-type="repository"
+                            [routerLink]="['/repository', parent.org.login, item.name]" class="d-inline-block">
+                            {{item.name}}
+                        </a>
+                    </h3>
+                    <p itemprop="description" class="break-word text-gray mb-0">
+                        {{item.description}}
+                    </p>
+                    <div class="text-gray f6 mt-2 repository-info">
+                        <span class="mr-3" *ngIf="item.language!=''" tooltip="Language: {{item.language}}">
+                            <i class="fas fa-code"></i>&nbsp;<span
+                                itemprop="programmingLanguage">{{item.language}}</span>
+                        </span>
+                        <span class="mr-3" *ngIf="item.license!=null" tooltip="{{item.license.name}}">
+                            <i class="fas fa-balance-scale"></i>&nbsp;{{item.license.spdx_id}}
+                        </span>
+                        <a [routerLink]="['/repository', parent.org.login, item.name]" class="muted-link mr-3"
+                            tooltip="{{item.forks_count}} network members">
+                            <i class="fas fa-network-wired"></i>&nbsp;{{item.forks_count}}
+                        </a>
+                        <a [routerLink]="['/repository', parent.org.login, item.name]" class="no-wrap muted-link mr-3"
+                            tooltip="{{item.stargazers_count}} stargazers">
+                            <i class="fas fa-star"></i>&nbsp;{{item.stargazers_count}}
+                        </a>
+                        <a [routerLink]="['/repository', parent.org.login, item.name]" class="no-wrap muted-link mr-3"
+                            tooltip="{{item.open_issues_count}} open issues">
+                            <i class="fas fa-exclamation-circle"></i>&nbsp;
+                            {{item.open_issues_count}}
+                        </a>
+                        <span class="no-wrap ">
+                            <i class="fas fa-clock"></i>&nbsp;Updated on {{item.updated_at | dateAgo}}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex-items-center d-flex">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="card-footer" *ngIf="result!=null && result.incomplete_results == false">
+        <pagination [totalItems]="itemTotalCount" [itemsPerPage]="itemPerPage" [directionLinks]="true" [rotate]="true"
+            [maxSize]="5" [(ngModel)]="searchCriteria.page" (pageChanged)="pageChanged($event)">
+        </pagination>
+    </div>
+</div>

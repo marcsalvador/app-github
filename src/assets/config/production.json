@@ -1,0 +1,16 @@
+{
+    "appName": "GitHubRepositoryExam",
+    "icon": "",
+    "title": "GitHub Repository Exam",
+    "subTitle": "",
+    "theme": "default",
+    "apiUrl": "",
+    "appUrl": "",
+    "version": "1.0",
+    "locale": "en-us",
+    "sessionGroupCode": "GRE01",
+    "idleTimeOut": 30,
+    "copyright": "GitHub Repository Exam",
+    "showSampleAccessToken": false,
+    "sampleAccessToken": ""
+}

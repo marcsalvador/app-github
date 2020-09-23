@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+nav .d-inline-block.align-top
+{
+    margin-right: 10px;
+}
+
+footer
+{
+    border: 1px solid #f1f1f1;    
+    background-color: rgba(0,0,0,.05);
+}
+
+.navbar {
+    min-height: 4rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.05), inset 0 -1px 0 rgba(0,0,0,.1);
+}
+
+a,a:hover{
+    text-decoration: none;
+}
+
+.card-header .card-title
+{
+    margin-bottom: 0px;
+}
+
+.muted-link {
+    color: #333!important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.muted-link:hover {
+    color: #333!important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.repository-info span, .repository-info a{
+    font-size: 12px!important;
+}
+
+.org-members-thumbnail img
+{
+    width: 10%;
+    border:2px solid #fff;
+}
+
+.break-word, .wb-break-all
+{
+    word-break:break-word;
+    white-space: pre-line;
+}
+
+.pagination
+{    
+    justify-content: center!important;
+    margin-bottom: 0px;
+}
+
+.pointer, .list-group-item-primary
+{
+    cursor: pointer;
+}
+.pointer:hover
+{
+    color:#0069d9!important;
+}
+.lng.btn, .lng.badge{
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.card
+{
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.row .card:first-child
+{
+    margin-top: 0px;
+}

@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-sm-4 col-md-3">
+        <div class="card border-0" *ngIf="parent.org!=null">
+            <div class="card-body">
+                <img [src]="parent.org.avatar_url" class="card-img-top">
+                <h5 class="card-title">
+                    {{parent.org.name}}
+                    <span *ngIf="parent.org.is_verified" class="badge badge-success badge-pill float-right">
+                        <i class="fas fa-check"></i>&nbsp;Verified
+                    </span>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{parent.org.description}}</h6>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item pointer" *ngIf="parent.stringService.IsNotEmpty(parent.org.email)"
+                    title="Send Email" placement="bottom" (click)="openSite('mailto:'+parent.org.email)">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="col">
+                            {{parent.org.email}}
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" *ngIf="parent.stringService.IsNotEmpty(parent.org.blog)"
+                    title="Visit Website" placement="bottom" (click)="openSite(parent.org.blog)">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="col">
+                            {{parent.org.blog}}
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" *ngIf="parent.stringService.IsNotEmpty(parent.org.html_url)"
+                    title="Visit Github Profile" placement="bottom" (click)="openSite(parent.org.html_url)">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fab fa-github-square"></i>
+                        </div>
+                        <div class="col">
+                            {{parent.org.html_url}}
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Repositories" placement="bottom"
+                    (click)="loadRepositories()">
+                    <div class="row">
+                        <div class="col-1">
+                            <svg class="octicon octicon-repo UnderlineNav-octicon" viewBox="0 0 16 16" version="1.1"
+                                width="16" height="16" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="col">
+                            Repositories
+                        </div>
+                        <div class="col-3 text-right">
+                            <span class="badge badge-info">{{parent.org.public_repos}}</span>&nbsp;
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="card border-0" *ngIf="parent.org!=null">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="col">
+                        <h5 class="card-title">People</h5>
+                    </div>
+                    <div class="col-2 text-right">
+                        <span class="pointer" (click)="loadMembers()"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+                <p *ngIf="parent.members!=null" class="card-text">
+                    <a class="org-members-thumbnail" *ngFor="let member of parent.members"
+                        [routerLink]="['/user/'+member.login]" [tooltip]="member.login">
+                        <img [src]="member.avatar_url" [alt]="member.login" class="rounded">
+                    </a>
+                </p>
+                <p *ngIf="parent.members==null || parent.members.length==0" class="card-text">
+                    <i class="fas fa-circle-notch fa-spin"></i>&nbsp; Loading people of organization...
+                </p>
+            </div>
+        </div>
+        <div class="card border-0" *ngIf="parent.org!=null">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="col">
+                        <h5 class="card-title">Top Languages</h5>
+                    </div>
+                    <div class="col-2 text-right">
+                    </div>
+                </div>
+                <p *ngIf="parent.languages!=null && parent.languages.length>0" class="card-text">
+                    <a class="lng btn btn-primary btn-sm" *ngFor="let language of parent.languages.slice(0,5)"
+                        (click)="searchByLanguage(language.language)">{{language.language}}</a>
+                </p>
+                <p *ngIf="parent.languages==null || parent.languages.length==0" class="card-text">
+                    <i class="fas fa-circle-notch fa-spin"></i>&nbsp; Loading organization top languages...
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <ng-template #container></ng-template>
+    </div>
+</div>

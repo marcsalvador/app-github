@@ -1,0 +1,256 @@
+<div class="row" *ngIf="repository!=null">
+    <div class="col-sm-4 col-md-3">
+        <div class="card border-0">
+            <div class="card-body">
+                <h2 class="card-title">{{repository.name}}</h2>
+                <h6 class="card-subtitle mb-2 text-muted">{{repository.description}}</h6>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item pointer" title="Back to Organization" placement="bottom"
+                    (click)="backToOrg()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <div class="col">
+                            {{parent.org.name}}
+                        </div>
+                        <div class="col-2 text-right">
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Read Me" placement="bottom" (click)="showReadMe()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fab fa-readme"></i>
+                        </div>
+                        <div class="col">
+                            Read Me
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Commits" placement="bottom" (click)="showCommits()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-bezier-curve"></i>
+                        </div>
+                        <div class="col">
+                            Commits
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Issues" placement="bottom" (click)="showIssues()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="col">
+                            Issues
+                        </div>
+                        <div class="col-3 text-right">
+                            <span class="badge badge-info">{{repository.open_issues_count}}</span>&nbsp;<i
+                                class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Watch" placement="bottom" (click)="loadWatch()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="col">
+                            Watch
+                        </div>
+                        <div class="col-3 text-right">
+                            <span class="badge badge-info">{{repository.watchers_count}}</span>&nbsp;<i
+                            class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Stargazers" placement="bottom" (click)="loadStar()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="col">
+                            Star
+                        </div>
+                        <div class="col-3 text-right">
+                            <span class="badge badge-info">{{repository.stargazers_count}}</span>&nbsp;<i
+                                class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" title="View Forks" placement="bottom" (click)="loadForks()">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="col">
+                            Fork
+                        </div>
+                        <div class="col-3 text-right">
+                            <span class="badge badge-info">{{repository.forks_count}}</span>&nbsp;<i
+                            class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" *ngIf="parent.stringService.IsNotEmpty(repository.homepage)"
+                    title="Visit Website" placement="bottom" (click)="openSite(repository.homepage)">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="col">
+                            {{repository.homepage}}
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item pointer" *ngIf="parent.stringService.IsNotEmpty(repository.html_url)"
+                    title="Visit Github Profile" placement="bottom" (click)="openSite(repository.html_url)">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fab fa-github-square"></i>
+                        </div>
+                        <div class="col">
+                            {{repository.html_url}}
+                        </div>
+                        <div class="col-2 text-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item" *ngIf="repository.license!=null">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="col">
+                            {{repository.license.spdx_id}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="card border-0" *ngIf="languages!=null && languages.length>0">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-code"></i>&nbsp;Languages
+                </h5>
+                <a class="lng btn btn-primary btn-sm" *ngFor="let language of languages">{{language.language}}</a>
+            </div>
+        </div>
+        <div class="card border-0" *ngIf="members!=null && members.length>0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="col">
+                        <h5 class="card-title">Contributors</h5>
+                    </div>
+                    <div class="col-2 text-right">
+                        <span class="pointer" (click)="loadContributors()"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+                <a class="org-members-thumbnail" *ngFor="let member of members" [routerLink]="['/user/'+member.login]"
+                    [title]="member.login">
+                    <img [src]="member.avatar_url" [alt]="member.login" class="rounded">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-md-9">
+        <div class="card border-0 shadow-sm mb-5 bg-white rounded" *ngIf="isReadMeVisible">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fab fa-readme"></i>&nbsp;README.md
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text" [innerHTML]="readme"></p>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm mb-5 bg-white rounded" *ngIf="isCommitsVisible">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-bezier-curve"></i>&nbsp;Commits
+                </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let item of commits">
+                    <div class="flex-justify-between d-flex">
+                        <div class="flex-auto ">
+                            <p itemprop="description" class="break-word text-gray mb-0">
+                                {{item.commit.message}}
+                            </p>
+                            <div class="text-gray f6 mt-2 repository-info">
+                                <a>
+                                    <i class="fas fa-user"></i>&nbsp;
+                                    {{item.commit.committer.name}}
+                                </a>
+                                <span class="no-wrap ">
+                                    <i class="fas fa-clock"></i>&nbsp;{{item.commit.committer.date | dateAgo}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-items-center d-flex">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-footer text-center">
+                <button type="button" class="btn btn-primary" [disabled]="!enableCommitPreviousButton"
+                    (click)="commitPrevious()">Newer</button>&nbsp;
+                <button type="button" class="btn btn-primary" [disabled]="!enableCommitNextButton"
+                    (click)="commitNext()">Older</button>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm mb-5 bg-white rounded" *ngIf="isIssuesVisible">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <i class="fas fa-exclamation-circle"></i>&nbsp;Issues
+                </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let item of issues">
+                    <div class="flex-justify-between d-flex">
+                        <div class="flex-auto ">
+                            <b>{{item.title}}</b>
+                            <p itemprop="description" class="break-word text-gray mb-0">
+                                {{item.body}}
+                            </p>
+                            <div class="text-gray f6 mt-2 repository-info">
+                                <a>
+                                    <i class="fas fa-user"></i>&nbsp;
+                                    {{item.user.login}}
+                                </a>
+                                <span class="no-wrap ">
+                                    <i class="fas fa-clock"></i>&nbsp;{{item.updated_at | dateAgo}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex-items-center d-flex">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-footer text-center">
+                <button type="button" class="btn btn-primary" [disabled]="!enableIssuesPreviousButton"
+                    (click)="issuesPrevious()">Newer</button>&nbsp;
+                <button type="button" class="btn btn-primary" [disabled]="!enableIssuesNextButton"
+                    (click)="issuesNext()">Older</button>
+            </div>
+        </div>
+        <ng-template #container></ng-template>
+    </div>
+</div>

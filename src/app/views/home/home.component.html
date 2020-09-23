@@ -1,0 +1,13 @@
+<div class="jumbotron">
+    <h1 class="display-4">Access GitHub Organization</h1>
+    <p class="lead">Angular application that access a particular GitHub Organization</p>
+    <hr class="my-4">
+    <form [formGroup]="formGroup" autocomplete="off" novalidate (ngSubmit)="submit()">
+        <div class="form-group">
+            <label for="organizationName">Enter Organization Name</label>
+            <input type="text" class="form-control" id="organizationName" formControlName="organizationName"
+                aria-describedby="organizationNameHelp">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
