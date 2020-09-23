@@ -21,6 +21,8 @@ export class OrganizationComponent extends BaseComponent implements OnInit, OnDe
 
   @ViewChild('container', { read: ViewContainerRef, static: false }) viewContainerRef: ViewContainerRef;
 
+  public showNoMemberAvailable: boolean;
+
   //#region Hooks
   ngOnInit(): void {
     this.parent.loadingService.show();
@@ -75,11 +77,12 @@ export class OrganizationComponent extends BaseComponent implements OnInit, OnDe
       .subscribe(
         results => {
           this.parent.members = results;
+          this.showNoMemberAvailable = false;
         },
         err => {
           this.messageService.error(err);
           this.parent.loadingService.hide();
-          this.router.navigate(['']);
+          this.showNoMemberAvailable = true;
         });
   }
   //#endregion

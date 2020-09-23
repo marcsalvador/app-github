@@ -95,8 +95,11 @@
                         <img [src]="member.avatar_url" [alt]="member.login" class="rounded">
                     </a>
                 </p>
-                <p *ngIf="parent.members==null || parent.members.length==0" class="card-text">
+                <p *ngIf="(parent.members==null || parent.members.length==0) && showNoMemberAvailable==false" class="card-text">
                     <i class="fas fa-circle-notch fa-spin"></i>&nbsp; Loading people of organization...
+                </p>
+                <p *ngIf="showNoMemberAvailable" class="card-text">
+                    <i class="fas fa-exclamation-triangle"></i>&nbsp; No members available
                 </p>
             </div>
         </div>
@@ -116,8 +119,11 @@
                     <a class="lng btn btn-primary btn-sm" *ngFor="let language of parent.languages.slice(0,5)"
                         (click)="searchByLanguage(language.language)">{{language.language}}</a>
                 </p>
-                <p *ngIf="parent.languages==null || parent.languages.length==0" class="card-text">
-                    <i class="fas fa-circle-notch fa-spin"></i>&nbsp; Loading organization top languages...
+                <p *ngIf="parent.languages==null" class="card-text">
+                    <i class="fas fa-circle-notch fa-spin"></i>&nbsp;Loading organization top languages...
+                </p>
+                <p *ngIf="parent.languages!=null && parent.languages.length==0" class="card-text">
+                    <i class="fas fa-exclamation-triangle"></i>&nbsp;No languages available.
                 </p>
             </div>
         </div>

@@ -103,7 +103,10 @@ export class RepositoriesComponent extends BaseComponent implements OnInit, OnDe
 
   //#region Language and Members
   asyncRequest(): void {
-    if (this.parent.languages !== null && this.parent.languages.length > 0) { return; }
+    if (this.parent.languages !== null &&
+        this.parent.languages !== undefined &&
+        this.parent.languages.length > 0)
+    { return; }
 
     // Language
     const requests = [];

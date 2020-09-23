@@ -20,7 +20,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   public org: Organization;
   public members: any[];
-  public languages = [];
+  public languages: any[];
   public parentTriggerChild: Subject<any> = new Subject();
 
   constructor(
