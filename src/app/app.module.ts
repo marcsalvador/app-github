@@ -76,6 +76,9 @@ import { RepositoriesComponent } from './views/repositories/repositories.compone
 import { LayoutComponent } from './layout/layout.component';
 import { BaseComponent } from './base/base.component';
 import { AppComponent } from './app.component';
+import { CommitsComponent } from './views/commits/commits.component';
+import { IssuesComponent } from './views/issues/issues.component';
+import { ReadMeComponent } from './views/read-me/read-me.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +91,10 @@ import { AppComponent } from './app.component';
     MembersComponent,
     RepositoriesComponent,
     LayoutComponent,
-    BaseComponent
+    BaseComponent,
+    CommitsComponent,
+    IssuesComponent,
+    ReadMeComponent
   ],
   imports: [
     BrowserModule,

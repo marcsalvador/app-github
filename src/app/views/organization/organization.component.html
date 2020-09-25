@@ -3,6 +3,7 @@
         <div class="card border-0" *ngIf="parent.org!=null">
             <div class="card-body">
                 <img [src]="parent.org.avatar_url" class="card-img-top">
+                <br>
                 <h5 class="card-title">
                     {{parent.org.name}}
                     <span *ngIf="parent.org.is_verified" class="badge badge-success badge-pill float-right">

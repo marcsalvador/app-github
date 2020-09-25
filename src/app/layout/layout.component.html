@@ -5,7 +5,7 @@
 <header *ngIf="org!=null">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand">
             <i class="fab fa-github"></i>
             <span>&nbsp;{{configService.config.title}}</span>
         </a>
@@ -17,10 +17,25 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" [routerLink]="['']">
-                        Change Organization
+                <li class="nav-item" tooltip="Change Current Organization" placement="bottom">
+                    <a class="nav-link pointer" (click)="changeOrg()">
+                        <i class="fas fa-exchange-alt"></i><span class="d-sm-none d-md-none d-lg-none">&nbsp;Change Organization</span>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/marcsalvador/app-github" tooltip="Visit GitHub Repositiry" placement="bottom">
+                        <i class="fab fa-github"></i><span class="d-sm-none d-md-none d-lg-none">&nbsp;Visit GitHub Repository</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/marcsalvador/app-github/archive/master.zip" tooltip="Download Code" placement="bottom">
+                        <i class="fas fa-download"></i><span class="d-sm-none d-md-none d-lg-none">&nbsp;Download Code</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link">
+                        <i class="fas fa-code-branch"></i>&nbsp;{{environment.package.version}}
+                    </span>
                 </li>
             </ul>
         </div>

@@ -35,7 +35,7 @@ export class MembersComponent extends BaseComponent implements OnInit, OnDestroy
 
   //#region Issues
   public getMembers(page): void {
-    this.gitHubService.urlRequestArray(this.url.replace('{/member}', '') + '?per_page=20&page=' + page)
+    this.gitHubService.urlRequestArray(this.url.replace('{/member}', '') + '?per_page=15&page=' + page)
       .subscribe(
         result => {
           if (result === null || result.length === 0) {

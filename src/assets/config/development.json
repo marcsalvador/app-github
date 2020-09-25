@@ -1,7 +1,7 @@
 {
     "appName": "GitHubRepositoryExam",
     "icon": "",
-    "title": "GitHub Repository Exam",
+    "title": "Organization Viewer",
     "subTitle": "",
     "theme": "default",
     "apiUrl": "",
@@ -10,7 +10,7 @@
     "locale": "en-us",
     "sessionGroupCode": "GRE01",
     "idleTimeOut": 30,
-    "copyright": "GitHub Repository Exam",
+    "copyright": "Organization Viewer",
     "showSampleAccessToken": true,
     "sampleAccessToken": "f5e27d3b3576110e1521751b854ef3cad8d75328"
 }

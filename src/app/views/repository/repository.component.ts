@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import markdown from 'markdown-html-viewer';
-import { stringify } from 'querystring';
 import { BaseComponent } from 'src/app/base/base.component';
+import { CommitsComponent } from '../commits/commits.component';
+import { IssuesComponent } from '../issues/issues.component';
 import { MembersComponent } from '../members/members.component';
+import { ReadMeComponent } from '../read-me/read-me.component';
 
 @Component({
   selector: 'app-repository',
@@ -22,22 +23,6 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
   public languages: any[];
   public members: any[];
   public contributors: any[];
-
-  public contents: any[];
-  public readme: string;
-  public isReadMeVisible = true;
-
-  public commits: any[];
-  public commitPage = 1;
-  public isCommitsVisible = false;
-  public enableCommitPreviousButton = false;
-  public enableCommitNextButton = true;
-
-  public issues: any[];
-  public issuesPage = 1;
-  public isIssuesVisible = false;
-  public enableIssuesPreviousButton = false;
-  public enableIssuesNextButton = true;
 
   @ViewChild('container', { read: ViewContainerRef, static: false }) viewContainerRef: ViewContainerRef;
 
@@ -89,8 +74,8 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
         result => {
           this.repository = result;
           this.getLanguages();
-          this.getContent();
           this.getContributors();
+          this.showReadMe();
         },
         error => {
           this.messageService.error(error);
@@ -144,128 +129,32 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
   }
   //#endregion
 
-  //#region Content and Read Me
-  showReadMe(): void {
-    if (this.isReadMeVisible) { return; }
-    this.isReadMeVisible = true;
-    this.isIssuesVisible = false;
-    this.isCommitsVisible = false;
-  }
-
-  getContent(): void {
-    this.gitHubService.urlRequestArray(this.repository.contents_url.replace('/{+path}', ''))
-      .subscribe(
-        result => {
-          this.contents = result;
-          const content = this.contents.find(x => x.name === 'README.md');
-          if (content !== null && content !== undefined && this.parent.stringService.IsNotEmpty(content.download_url)) {
-            markdown.convert(content.download_url, 'html').then(data => {
-              this.readme = data;
-            });
-          }
-          else {
-            this.readme = '1';
-          }
-        },
-        error => {
-          this.messageService.error(error);
-        });
-  }
-  //#endregion
-
-  //#region Commits
-  showCommits(): void {
-    if (this.isCommitsVisible) { return; }
-    this.isCommitsVisible = true;
-    this.isReadMeVisible = false;
-    this.isIssuesVisible = false;
-    this.getCommits(1);
-  }
-
-  getCommits(page): void {
-    this.gitHubService.urlRequestArray(this.repository.commits_url.replace('{/sha}', '') + '?per_page=10&page=' + page)
-      .subscribe(
-        result => {
-          this.enableCommitNextButton = true;
-          if (result === null || result.length === 0) {
-            this.enableCommitNextButton = false;
-            this.commitPage--;
-          }
-          else {
-            this.commits = result;
-            this.enableCommitNextButton = true;
-          }
-        },
-        error => {
-          this.commitPage--;
-          this.enableCommitNextButton = false;
-          this.messageService.error(error);
-        });
-  }
-
-  commitPrevious(): void {
-    if (this.commitPage === 1) { return; }
-    this.commitPage--;
-    if (this.commitPage === 1) { this.enableCommitPreviousButton = false; }
-    this.getCommits(this.commitPage);
-  }
-
-  commitNext(): void {
-    this.commitPage++;
-    this.enableCommitPreviousButton = true;
-    this.getCommits(this.commitPage);
-  }
-  //#endregion
-
-  //#region Issues
-  showIssues(): void {
-    if (this.isIssuesVisible) { return; }
-    this.isIssuesVisible = true;
-    this.isCommitsVisible = false;
-    this.isReadMeVisible = false;
-    this.viewContainerRef.clear();
-    this.getIssues(1);
-  }
-
-  getIssues(page): void {
-    this.gitHubService.urlRequestArray(this.repository.issues_url.replace('{/number}', '') + '?per_page=10&page=' + page)
-      .subscribe(
-        result => {
-          if (result === null || result.length === 0) {
-            this.enableIssuesNextButton = false;
-            this.issuesPage--;
-          }
-          else {
-            this.issues = result;
-            this.enableIssuesNextButton = true;
-          }
-        },
-        error => {
-          this.issuesPage--;
-          this.enableIssuesNextButton = false;
-          this.messageService.error(error);
-        });
-  }
-
-  issuesPrevious(): void {
-    if (this.issuesPage === 1) { return; }
-    this.issuesPage--;
-    if (this.issuesPage === 1) { this.enableIssuesPreviousButton = false; }
-    this.getIssues(this.issuesPage);
-  }
-
-  issuesNext(): void {
-    this.issuesPage++;
-    this.enableIssuesPreviousButton = true;
-    this.getIssues(this.issuesPage);
-  }
-  //#endregion
-
   //#region Load Components
+  showReadMe(): void {
+    if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
+    const factory = this.componentFactoryResolver.resolveComponentFactory(ReadMeComponent);
+    const ref = this.viewContainerRef.createComponent(factory);
+    ref.changeDetectorRef.detectChanges();
+    ref.instance.load(this.repository.contents_url);
+  }
+
+  showIssues(): void {
+    if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
+    const factory = this.componentFactoryResolver.resolveComponentFactory(IssuesComponent);
+    const ref = this.viewContainerRef.createComponent(factory);
+    ref.changeDetectorRef.detectChanges();
+    ref.instance.load(1, this.repository.issues_url, 'Issues');
+  }
+
+  showCommits(): void {
+    if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
+    const factory = this.componentFactoryResolver.resolveComponentFactory(CommitsComponent);
+    const ref = this.viewContainerRef.createComponent(factory);
+    ref.changeDetectorRef.detectChanges();
+    ref.instance.load(1, this.repository.commits_url, 'Commits');
+  }
+
   loadStar(): void {
-    this.isIssuesVisible = false;
-    this.isCommitsVisible = false;
-    this.isReadMeVisible = false;
     if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
     const factory = this.componentFactoryResolver.resolveComponentFactory(MembersComponent);
     const ref = this.viewContainerRef.createComponent(factory);
@@ -274,9 +163,6 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
   }
 
   loadForks(): void {
-    this.isIssuesVisible = false;
-    this.isCommitsVisible = false;
-    this.isReadMeVisible = false;
     if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
     const factory = this.componentFactoryResolver.resolveComponentFactory(MembersComponent);
     const ref = this.viewContainerRef.createComponent(factory);
@@ -285,9 +171,6 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
   }
 
   loadWatch(): void {
-    this.isIssuesVisible = false;
-    this.isCommitsVisible = false;
-    this.isReadMeVisible = false;
     if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
     const factory = this.componentFactoryResolver.resolveComponentFactory(MembersComponent);
     const ref = this.viewContainerRef.createComponent(factory);
@@ -296,9 +179,6 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
   }
 
   loadContributors(): void {
-    this.isIssuesVisible = false;
-    this.isCommitsVisible = false;
-    this.isReadMeVisible = false;
     if (this.viewContainerRef != null) { this.viewContainerRef.clear(); }
     const factory = this.componentFactoryResolver.resolveComponentFactory(MembersComponent);
     const ref = this.viewContainerRef.createComponent(factory);

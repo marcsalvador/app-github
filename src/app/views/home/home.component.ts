@@ -14,6 +14,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
   public formRequest: any = {};
 
   ngOnInit(): void {
+    this.parent.org = null;
+    this.parent.members = null;
+    this.parent.languages = null;
+
     this.formGroup = this.formBuilder.group({
       organizationName: new FormControl({ value: '' }, Validators.required),
     });

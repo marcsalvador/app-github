@@ -1,0 +1,35 @@
+<div class="card border-0 shadow-sm mb-5 bg-white rounded">
+    <div class="card-header">
+        <h5 class="card-title">
+            <i class="fas fa-bezier-curve"></i>&nbsp;Commits
+        </h5>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let item of results">
+            <div class="flex-justify-between d-flex">
+                <div class="flex-auto ">
+                    <p itemprop="description" class="break-word text-gray mb-0">
+                        {{item.commit.message}}
+                    </p>
+                    <div class="text-gray f6 mt-2 repository-info">
+                        <a>
+                            <i class="fas fa-user"></i>&nbsp;
+                            {{item.commit.committer.name}}
+                        </a>
+                        <span class="no-wrap ">
+                            <i class="fas fa-clock"></i>&nbsp;{{item.commit.committer.date | dateAgo}}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex-items-center d-flex">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="card-footer text-center">
+        <button type="button" class="btn btn-primary" [disabled]="!enablePreviousButton"
+            (click)="previous()">Newer</button>&nbsp;
+        <button type="button" class="btn btn-primary" [disabled]="!enableNextButton"
+            (click)="next()">Older</button>
+    </div>
+</div>

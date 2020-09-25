@@ -10,6 +10,7 @@ import { LoadingService } from 'src/app/libraries/loading.service';
 import { MessageService } from 'src/app/libraries/message.service';
 import { StorageService } from 'src/app/libraries/storage.service';
 import { StringService } from 'src/app/libraries/string.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +18,8 @@ import { StringService } from 'src/app/libraries/string.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
+
+  public environment = environment;
 
   public org: Organization;
   public members: any[];
@@ -41,6 +44,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
   //#endregion
+
+  changeOrg(): void {
+    this.org = null;
+    this.members = null;
+    this.languages = null;
+    this.router.navigate(['']);
+  }
 
   public setTitle(view: string = ''): void {
     view = this.stringService.IsEmpty(view) ? '' : '' + view;
