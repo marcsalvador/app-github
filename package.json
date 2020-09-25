@@ -23,7 +23,6 @@
     "@angular/platform-browser-dynamic": "^10.1.2",
     "@angular/router": "^10.1.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "bootstrap": "^4.5.2",
     "classlist.js": "^1.1.20150312",
     "jquery": "^3.5.1",
