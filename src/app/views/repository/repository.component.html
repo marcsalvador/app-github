@@ -1,5 +1,5 @@
-<div class="row" *ngIf="repository!=null">
-    <div class="col-sm-4 col-md-3">
+<div class="row">
+    <div class="col-sm-4 col-md-3" *ngIf="repository!=null">
         <div class="card border-0">
             <div class="card-body">
                 <h2 class="card-title">{{repository.name}}</h2>
@@ -141,14 +141,9 @@
                 </li>
             </ul>
         </div>
-        <div class="card border-0" *ngIf="languages!=null && languages.length>0">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="fas fa-code"></i>&nbsp;Languages
-                </h5>
-                <a class="lng btn btn-primary btn-sm" *ngFor="let language of languages">{{language.language}}</a>
-            </div>
-        </div>
+
+        <app-languages [languages]="languages"></app-languages>
+
         <div class="card border-0" *ngIf="members!=null && members.length>0">
             <div class="card-body">
                 <div class="row">

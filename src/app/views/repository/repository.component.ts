@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { BaseComponent } from 'src/app/base/base.component';
 import { CommitsComponent } from '../commits/commits.component';
 import { IssuesComponent } from '../issues/issues.component';
@@ -10,8 +10,7 @@ import { ReadMeComponent } from '../read-me/read-me.component';
   templateUrl: './repository.component.html',
   styleUrls: ['./repository.component.scss']
 })
-export class RepositoryComponent extends BaseComponent implements OnInit, OnDestroy {
-
+export class RepositoryComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
   public baseT;
   public parentT;
 
@@ -20,7 +19,7 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
 
   public repository: any;
 
-  public languages: any[];
+  public languages: Array<any>;
   public members: any[];
   public contributors: any[];
 
@@ -28,6 +27,15 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
 
   //#region Hooks
   ngOnInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+    this.baseT.unsubscribe();
+    this.parentT.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
     this.parent.loadingService.show();
     this.parent.setTitle('Repository');
 
@@ -60,11 +68,6 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
         this.parent.initializeOrg(this.orgName);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.baseT.unsubscribe();
-    this.parentT.unsubscribe();
   }
   //#endregion
 
@@ -112,6 +115,13 @@ export class RepositoryComponent extends BaseComponent implements OnInit, OnDest
         }
       }
       this.languages.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    }
+    if (this.languages != null && this.languages.length > 0) {
+      if (this.languages == null || this.languages.length === 0) { return; }
+      const totalUsage = this.languages.map(a => a.value).reduce((a, b) => a + b);
+      for (const language of this.languages) {
+        language.usagePercentage = (language.value / totalUsage) * 100;
+      }
     }
   }
   //#endregion

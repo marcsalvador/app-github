@@ -9,15 +9,16 @@
             <div class="flex-justify-between d-flex">
                 <div class="flex-auto ">
                     <p itemprop="description" class="break-word text-gray mb-0">
-                        {{item.commit.message}}
+                        <strong>{{item.title}}</strong><br>
+                        {{item.body}}
                     </p>
                     <div class="text-gray f6 mt-2 repository-info">
                         <a>
                             <i class="fas fa-user"></i>&nbsp;
-                            {{item.commit.committer.name}}
+                            {{item.user.login}}
                         </a>
                         <span class="no-wrap ">
-                            <i class="fas fa-clock"></i>&nbsp;{{item.commit.committer.date | dateAgo}}
+                            <i class="fas fa-clock"></i>&nbsp;{{item.updated_at | dateAgo}}
                         </span>
                     </div>
                 </div>

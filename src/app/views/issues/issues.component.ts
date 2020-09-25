@@ -42,6 +42,7 @@ export class IssuesComponent extends BaseComponent implements OnInit, OnDestroy 
           }
           else {
             this.results = result;
+            console.log(this.results);
             this.enableNextButton = true;
           }
         },

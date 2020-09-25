@@ -7,6 +7,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -79,6 +80,7 @@ import { AppComponent } from './app.component';
 import { CommitsComponent } from './views/commits/commits.component';
 import { IssuesComponent } from './views/issues/issues.component';
 import { ReadMeComponent } from './views/read-me/read-me.component';
+import { LanguagesComponent } from './views/languages/languages.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,8 @@ import { ReadMeComponent } from './views/read-me/read-me.component';
     BaseComponent,
     CommitsComponent,
     IssuesComponent,
-    ReadMeComponent
+    ReadMeComponent,
+    LanguagesComponent
   ],
   imports: [
     BrowserModule,
@@ -112,11 +115,13 @@ import { ReadMeComponent } from './views/read-me/read-me.component';
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ProgressbarModule.forRoot()
   ],
   entryComponents: [
     MembersComponent,
-    RepositoriesComponent
+    RepositoriesComponent,
+    LanguagesComponent
   ],
   providers: [
     {

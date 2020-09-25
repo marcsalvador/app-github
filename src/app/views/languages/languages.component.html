@@ -1,0 +1,11 @@
+<div class="card border-0" *ngIf="languages!=null && languages.length>0">
+    <div class="card-body">
+        <h5 class="card-title">
+            <i class="fas fa-code"></i>&nbsp;Languages
+        </h5>
+        <a *ngFor="let language of languages">
+            <i>{{language.language}} : {{language.usagePercentage | number: '1.2-2'}}%</i>
+            <progressbar max="100" [value]="language.usagePercentage" [striped]="true" [animate]="true" >{{language.value}}</progressbar>
+        </a>
+    </div>
+</div>

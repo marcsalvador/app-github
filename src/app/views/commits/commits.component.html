@@ -6,8 +6,8 @@
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item" *ngFor="let item of results">
-            <div class="flex-justify-between d-flex">
-                <div class="flex-auto ">
+            <div class="flex-justify-between d-flex" *ngIf="item.commit!=null">
+                <div class="flex-auto">
                     <p itemprop="description" class="break-word text-gray mb-0">
                         {{item.commit.message}}
                     </p>
